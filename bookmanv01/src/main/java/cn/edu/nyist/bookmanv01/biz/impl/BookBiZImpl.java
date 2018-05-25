@@ -1,17 +1,16 @@
 package cn.edu.nyist.bookmanv01.biz.impl;
 
-import java.util.Date;
-
 import cn.edu.nyist.bookmanv01.biz.BookBiz;
 import cn.edu.nyist.bookmanv01.dao.BookDao;
 import cn.edu.nyist.bookmanv01.dao.impl.BookDaoJdbcImpl;
+import cn.edu.nyist.bookmanv01.vo.BookVo;
 
 public class BookBiZImpl implements BookBiz {
 
 	@Override
-	public int savaBook(String name, String descri, double price, String author, int tid, String newFileName,Date pubDate) {
+	public int savaBook(BookVo bookVo) {
 		BookDao bookDao=new BookDaoJdbcImpl();
-		return bookDao.save(name,descri,price,author,tid,newFileName,pubDate);
+		return bookDao.save(bookVo);
 	}
 
 }

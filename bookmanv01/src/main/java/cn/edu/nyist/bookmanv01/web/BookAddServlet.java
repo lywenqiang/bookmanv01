@@ -1,9 +1,6 @@
 package cn.edu.nyist.bookmanv01.web;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -16,6 +13,8 @@ import javax.servlet.http.Part;
 
 import cn.edu.nyist.bookmanv01.biz.BookBiz;
 import cn.edu.nyist.bookmanv01.biz.impl.BookBiZImpl;
+import cn.edu.nyist.bookmanv01.util.MyBeanUtils;
+import cn.edu.nyist.bookmanv01.vo.BookVo;
 
 @WebServlet("/bookAdd")
 @MultipartConfig
@@ -46,7 +45,7 @@ public class BookAddServlet extends HttpServlet {
 		String newFileName = UUID.randomUUID().toString() + "." + ext;
 		part.write(request.getServletContext().getRealPath("upload/" + newFileName));
 		// 获取参数
-		String name = request.getParameter("name");
+		/*String name = request.getParameter("name");
 		String descri = request.getParameter("descri");
 		String strPrice = request.getParameter("price");
 		double price = Double.parseDouble(strPrice);
@@ -63,16 +62,27 @@ public class BookAddServlet extends HttpServlet {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
+		BookVo bookVo=new BookVo();
+		/*try {
+			BeanUtils.populate(bookVo, request.getParameterMap());
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		MyBeanUtils.populate(bookVo, request.getParameterMap(), "yyyy-MM-dd");
+		bookVo.setPhoto(newFileName);
 		// 调用业务层保存
 		BookBiz bookBiz = new BookBiZImpl();
 		// 返回受影响的行数
-		int ret = bookBiz.savaBook(name, descri, price, author, tid, newFileName,pubDate);
+		//int ret = bookBiz.savaBook(name, descri, price, author, tid, newFileName,pubDate);
+		int ret = bookBiz.savaBook(bookVo);
 		// 给出响应
-		//response.setContentType("text/html;charset=utf-8");
+		response.setContentType("text/html;charset=utf-8");
 		if (ret > 0) {
 			System.out.println(ret);
-			request.getRequestDispatcher("main.jsp").forward(request, response);
+			response.getWriter().write("添加成功");
+			//request.getRequestDispatcher("main.jsp").forward(request, response);
 		} else {
 			request.setAttribute("msg", "添加失败");
 			request.getRequestDispatcher("bookAdd.jsp").forward(request, response);
