@@ -29,8 +29,16 @@ public class FindAllTypesServlet extends HttpServlet {
 		TypeBiz typeBiz=new TypeBizImpl();
 		List<TypeVo> ls=typeBiz.findAllTypes();
 		//3、给用户个响应
-		request.setAttribute("ls", ls);
-		request.getRequestDispatcher("bookAdd.jsp").forward(request, response);
+		response.setContentType("text/javascript;charset=UTF-8");
+		String js="var types=[";
+		for (int i = 0; i < ls.size(); i++) {
+			js+="{id:"+ls.get(i).getId()+",name:'"+ls.get(i).getName()+"'}";
+			if (i<ls.size()-1) {
+				js+=",";
+			}
+		}
+		js+="]";
+		response.getWriter().write(js);
 	}
 
 	
