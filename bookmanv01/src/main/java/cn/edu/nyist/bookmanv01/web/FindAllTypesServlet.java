@@ -30,7 +30,7 @@ public class FindAllTypesServlet extends HttpServlet {
 		List<TypeVo> ls=typeBiz.findAllTypes();
 		//3、给用户个响应
 		response.setContentType("text/javascript;charset=UTF-8");
-		String js="var types=[";
+		String js="[";
 		for (int i = 0; i < ls.size(); i++) {
 			js+="{id:"+ls.get(i).getId()+",name:'"+ls.get(i).getName()+"'}";
 			if (i<ls.size()-1) {
@@ -38,7 +38,7 @@ public class FindAllTypesServlet extends HttpServlet {
 			}
 		}
 		js+="]";
-		response.getWriter().write(js);
+		response.getWriter().write("fillSel("+js+")");
 	}
 
 	

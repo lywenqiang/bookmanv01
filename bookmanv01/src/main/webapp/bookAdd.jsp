@@ -120,13 +120,13 @@
 		})
 	</script>
 	<script type="text/javascript">
-	function fillSel() {
+	function fillSel(types) {
 		var sel=document.getElementById("selectTid");
 		for (var i = 0; i < types.length; i++) {
 			sel.appendChild(new Option(types[i].name,types[i].id));
 		}
 	}
 	</script>
-	<script type="text/javascript" src="findAllTypes" onload="fillSel()"></script>
+	<script type="text/javascript" src="findAllTypes" ></script>
 </body>
 </html>
